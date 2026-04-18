@@ -1,0 +1,7 @@
+{
+  "tool_name": "write_file",
+  "tool_input": {
+    "path": "sample.ts",
+    "content": "export const add = (a: number, b: number): number => a + b;\n"
+  }
+}

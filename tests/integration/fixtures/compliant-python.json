@@ -1,0 +1,7 @@
+{
+  "tool_name": "write_file",
+  "tool_input": {
+    "path": "sample.py",
+    "content": "from __future__ import annotations\n\ndef add(a: int, b: int) -> int:\n    return a + b\n"
+  }
+}

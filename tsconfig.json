@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "outDir": "dist-tsc",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "#domain/*": ["src/domain/*"],
+      "#application/*": ["src/application/*"],
+      "#infrastructure/*": ["src/infrastructure/*"],
+      "#boundary/*": ["src/boundary/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "mcp-server/src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist", "dist-tsc", "mcp-server/dist"]
+}

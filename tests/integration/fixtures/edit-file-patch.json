@@ -1,0 +1,7 @@
+{
+  "tool_name": "edit_file",
+  "tool_input": {
+    "path": "sample.ts",
+    "new_string": "let x = 5;"
+  }
+}

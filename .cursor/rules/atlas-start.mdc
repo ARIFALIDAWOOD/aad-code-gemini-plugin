@@ -1,0 +1,27 @@
+---
+description: Sync Atlas plan checkboxes with finished work (boulder.json + active plan). Optional path argument prioritizes that plan (set active_plan + plan_name in boulder.json, then sync that file). Primary /atlas-start. Also 'atlas start', 'sync atlas plan', 'mark atlas task done'.
+alwaysApply: false
+---
+
+# Atlas-Start (operational)
+
+When the user runs **/atlas-start** or asks to sync the Atlas plan after external work:
+
+1. **Read** `.sisyphus/boulder.json` at repo root. Do not create it if missing; stop and report.
+2. **Pre-flight**: if `session_ids` (or similar) suggests active Atlas runs, warn about concurrent writes before any writes.
+3. **Resolve effective plan**:
+   - If the user gave a **plan markdown path** (after `/atlas-start`, on the same line, or clearly as the target file): resolve it relative to **project root** (parent of `.sisyphus/`) or as an absolute path; verify it exists. Then set **`active_plan`** (absolute path) and **`plan_name`** (filename without `.md`) in `boulder.json` so Atlas prioritizes that plan. Do not change `session_ids`, `session_origins`, `agent`, `task_sessions`, `worktree_path`, or `started_at`. If `task_sessions` exists, warn it may be stale for the new plan.
+   - Else: use `active_plan` if the file exists; else `.sisyphus/plans/{plan_name}.md`.
+4. **Read** the effective plan file end-to-end before any checkbox edit.
+5. **Verify** each task you will mark: `git diff` / file existence / tests when applicable. If verification fails, do not mark.
+6. **Edit** only **zero-indent** `- [ ]` lines under `## TODOs`, changing matching lines to `- [x]`. Preserve `N.` labels.
+7. **FORBIDDEN**: check or modify tasks under `## Final Verification Wave` (`F1.`, …).
+8. **FORBIDDEN**: change `session_ids`, `session_origins`, or `agent` in `boulder.json`.
+9. **FORBIDDEN**: toggle indented checkboxes as part of this flow.
+10. **Report** progress: completed/total TODOs, remaining count, and next unchecked TODO title if any. If you repointed `active_plan`, say so in the summary.
+
+Regex (top-level only: first whitespace capture must be empty):
+
+- Unchecked: `/^(\s*)[-*]\s*\[\s*\]\s*(.+)$/`
+- Checked: `/^(\s*)[-*]\s*\[[xX]\]\s*(.+)$/`
+- TODO label body: `/^(\d+)\.\s+(.+)$/`

@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "write_file|edit_file|replace",
+        "hooks": [
+          {
+            "name": "governance-enforcement",
+            "type": "command",
+            "command": "node ${extensionPath}/dist/hook-handler.js"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "tool_name": "write_file",
+  "tool_input": {
+    "path": "sample.ts",
+    "content": "const y = f(g(h()));"
+  }
+}

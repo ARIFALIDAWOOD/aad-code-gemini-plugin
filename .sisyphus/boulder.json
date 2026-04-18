@@ -1,0 +1,39 @@
+{
+  "active_plan": "C:\\Users\\aadx3d\\codes\\aad-code-gemini-plugin\\.sisyphus\\plans\\governance-enforcement-plugin.md",
+  "started_at": "2026-04-18T04:58:04.626Z",
+  "session_ids": [
+    "ses_2611566a3ffeerOvRxoqxA2lGV",
+    "ses_261093c1cffeajrY4G1pgW7Q6d",
+    "ses_261092a21ffezOX6V263fz4IlO",
+    "ses_261091cd9ffeagxhwXVjdswLQc",
+    "ses_26109097effepTBsjvIMlbfyYo"
+  ],
+  "session_origins": {
+    "ses_2611566a3ffeerOvRxoqxA2lGV": "direct",
+    "ses_261093c1cffeajrY4G1pgW7Q6d": "appended",
+    "ses_261092a21ffezOX6V263fz4IlO": "appended",
+    "ses_261091cd9ffeagxhwXVjdswLQc": "appended",
+    "ses_26109097effepTBsjvIMlbfyYo": "appended"
+  },
+  "plan_name": "governance-enforcement-plugin",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Delete \"Layer Mapping: .aad to Backend\" section from ARCHITECTURE.md",
+      "session_id": "ses_2610b7ad9ffeBKOFv7INP57cbe",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-04-18T04:59:24.786Z"
+    },
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "**Plan Compliance Audit** — `oracle`",
+      "session_id": "ses_26109097effepTBsjvIMlbfyYo",
+      "agent": "oracle",
+      "updated_at": "2026-04-18T05:03:06.322Z"
+    }
+  }
+}

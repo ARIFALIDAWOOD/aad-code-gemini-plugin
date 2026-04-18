@@ -1,0 +1,11 @@
+{
+  "name": "aad-governance",
+  "version": "0.1.0",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "governanceServer": {
+      "command": "node",
+      "args": ["${extensionPath}/mcp-server/dist/index.js"]
+    }
+  }
+}

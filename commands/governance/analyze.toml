@@ -1,0 +1,11 @@
+description = "Run governance analysis on a file using the analyze_governance MCP tool"
+prompt = """
+You have access to the `analyze_governance` MCP tool.
+
+When the user runs /governance:analyze, read the requested file (or the active editor file), determine whether it is TypeScript/JavaScript or Python, then call `analyze_governance` with:
+- `content`: the full file contents
+- `language`: `typescript` for .ts/.tsx/.js/.jsx files, otherwise `python` for .py
+- `filePath`: the path provided by the user (or best-known workspace path)
+
+Return the JSON tool result verbatim, grouped by severity.
+"""
