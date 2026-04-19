@@ -273,7 +273,7 @@ const checkCallExpression = (ctx: VisitContext, node: ts.Node): void => {
 
   const args = node.arguments;
   const hasNested = args.some(argumentIntroducesCallNesting);
-  if (hasNested) {
+  if (!ctx.isTestFile && hasNested) {
     const v = createViolation(ctx, "pipes-no-nested-calls", "enforced", "Avoid nested calls; compose with pipes or intermediate bindings (Pipes pillar)", node, snippet);
     ctx.violations = [...ctx.violations, v];
   }

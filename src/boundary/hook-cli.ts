@@ -41,6 +41,10 @@ const handleHook = (raw: string): void => {
     const outJson = JSON.stringify(response);
     const output = outJson + "\n";
     process.stdout.write(output);
+
+    if (decision === "deny") {
+      process.exit(2);
+    }
   } catch (error) {
     logError(error);
   }

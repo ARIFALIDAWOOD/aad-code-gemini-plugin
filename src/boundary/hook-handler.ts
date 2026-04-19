@@ -1,5 +1,6 @@
 import { runAnalysis } from "../application/analyze";
 import type { HookInput, HookOutput } from "../domain/types";
+import { applyFixes } from "../domain/fixers/fixer-engine";
 
 const getLanguage = (filePath: string): "typescript" | "python" | null => {
   if (filePath.endsWith(".ts") || filePath.endsWith(".tsx")) return "typescript";
@@ -8,7 +9,7 @@ const getLanguage = (filePath: string): "typescript" | "python" | null => {
 };
 
 const extractPathAndContent = (
-  toolInput: Record<string, unknown>,
+  toolInput: Record<string, unknown>
 ): { path: string; content: string } | null => {
   const path =
     typeof toolInput["path"] === "string" ? toolInput["path"] :
@@ -34,6 +35,35 @@ export const processHook = (input: HookInput): HookOutput => {
 
   const enforced = result.value.violations.filter((v) => v.severity === "enforced");
   if (enforced.length === 0) return {};
+
+  // Try to fix enforced violations
+  const fixResult = applyFixes({
+    code: file.content,
+    filePath: file.path,
+    language,
+    violations: enforced,
+  });
+
+  if (fixResult.isOk()) {
+    const fixedCode = fixResult.value;
+    const isActuallyFixed = fixedCode !== file.content;
+    if (isActuallyFixed) {
+      // Return the fixed content to the agent
+      const updatedInput = { ...input.tool_input };
+      if (typeof updatedInput["content"] === "string") {
+        updatedInput["content"] = fixedCode;
+      } else if (typeof updatedInput["new_string"] === "string") {
+        updatedInput["new_string"] = fixedCode;
+      }
+
+      return {
+        hookSpecificOutput: {
+          tool_input: updatedInput,
+          additionalContext: "Governance violations were auto-fixed. Please review the changes.",
+        },
+      };
+    }
+  }
 
   const formatViolation = (v: { ruleId: string; line: number; message: string }): string => {
     const lineStr = String(v.line);

@@ -1,8 +1,9 @@
-import { type Result } from "neverthrow";
+import { ok, type Result } from "neverthrow";
 import { type DomainError } from "#domain/errors.js";
 import { type AnalysisResult } from "#domain/types.js";
 import { detectTypeScriptViolations } from "#domain/rules/typescript-rules.js";
 import { detectPythonViolations } from "#domain/rules/python-rules.js";
+import { isSuspicious } from "#domain/heuristics.js";
 
 export const analyzeCode = (input: {
   readonly code: string;
@@ -12,6 +13,16 @@ export const analyzeCode = (input: {
   const code = input.code;
   const filePath = input.filePath;
   const language = input.language;
+
+  const quickCheck = isSuspicious(code);
+  if (!quickCheck) {
+    const emptyResult: AnalysisResult = {
+      violations: [],
+      filePath,
+      language,
+    };
+    return ok(emptyResult);
+  }
 
   const getViolations = () => {
     if (language === "typescript") {
