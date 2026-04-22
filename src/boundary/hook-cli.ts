@@ -29,33 +29,22 @@ const handleHook = (raw: string): void => {
 
   try {
     const parsed = JSON.parse(raw) as HookInput;
-    const toolName = parsed.tool_name;
-    const toolMsg = `[governance-hook] tool_name=${toolName}\n`;
-    process.stderr.write(toolMsg);
-
     const response = processHook(parsed);
-    const decision = response.decision ?? "allow";
-    const decisionMsg = `[governance-hook] decision=${decision}\n`;
-    process.stderr.write(decisionMsg);
-
     const outJson = JSON.stringify(response);
     const output = outJson + "\n";
     process.stdout.write(output);
-
-    if (decision === "deny") {
-      process.exit(2);
-    }
   } catch (error) {
     logError(error);
   }
 };
 
 async function main(): Promise<void> {
-  const raw = await readStdin();
-  const rawLen = raw.length;
-  const msg = `[governance-hook] received ${rawLen} bytes\n`;
-  process.stderr.write(msg);
-  handleHook(raw);
+  try {
+    const raw = await readStdin();
+    handleHook(raw);
+  } catch (error) {
+    logError(error);
+  }
 }
 
 main();

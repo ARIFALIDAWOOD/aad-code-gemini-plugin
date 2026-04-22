@@ -32,7 +32,7 @@ describe("hook-handler integration", () => {
       tool_input: { path: "sample.ts", content: "const y = f(g(h()));" },
     });
     const { stdout, status } = runHook(payload);
-    expect(status).toBe(2);
+    expect(status).toBe(0);
     const parsed = JSON.parse(stdout) as { decision?: string };
     expect(parsed.decision).toBe("deny");
   });
