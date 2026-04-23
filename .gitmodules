@@ -1,3 +1,6 @@
 [submodule "aad-governance"]
 	path = aad-governance
 	url = https://github.com/ARIFALIDAWOOD/aad-governance.git
+[submodule "claude-mem"]
+	path = claude-mem
+	url = https://github.com/ARIFALIDAWOOD/claude-mem.git
