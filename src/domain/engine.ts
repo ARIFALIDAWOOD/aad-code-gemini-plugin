@@ -3,6 +3,7 @@ import { type DomainError } from "#domain/errors.js";
 import { type AnalysisResult } from "#domain/types.js";
 import { detectTypeScriptViolations } from "#domain/rules/typescript-rules.js";
 import { detectPythonViolations } from "#domain/rules/python-rules.js";
+import { detectSecretViolations } from "#domain/security/secret-rules.js";
 import { isSuspicious } from "#domain/heuristics.js";
 
 export const analyzeCode = (input: {
@@ -14,10 +15,14 @@ export const analyzeCode = (input: {
   const filePath = input.filePath;
   const language = input.language;
 
+  // Secret scan runs unconditionally — leaked secrets pass every quality heuristic
+  const secretResult = detectSecretViolations(code, filePath);
+  const secretViolations = secretResult.isOk() ? secretResult.value : [];
+
   const quickCheck = isSuspicious(code);
   if (!quickCheck) {
     const emptyResult: AnalysisResult = {
-      violations: [],
+      violations: [...secretViolations],
       filePath,
       language,
     };
@@ -35,7 +40,7 @@ export const analyzeCode = (input: {
 
   const result = violationsResult.map((violations) => {
     const analysis: AnalysisResult = {
-      violations,
+      violations: [...secretViolations, ...violations],
       filePath,
       language,
     };

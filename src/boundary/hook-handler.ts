@@ -36,6 +36,26 @@ export const processHook = (input: HookInput): HookOutput => {
   const enforced = result.value.violations.filter((v) => v.severity === "enforced");
   if (enforced.length === 0) return {};
 
+  // Security violations must block before auto-fix — a secret + fixable violation
+  // together must not let the secret slip through via the fix branch
+  const isSecurityViolation = (v: { ruleId: string }): boolean => v.ruleId.startsWith("security-secret-");
+  const securityViolations = enforced.filter(isSecurityViolation);
+  if (securityViolations.length > 0) {
+    const formatViolation = (v: { ruleId: string; line: number; message: string }): string => {
+      const lineStr = String(v.line);
+      const ruleId = v.ruleId;
+      const msg = v.message;
+      const formatted = `[${ruleId}] line ${lineStr}: ${msg}`;
+      return formatted;
+    };
+
+    const reasonParts = securityViolations.map(formatViolation);
+    const reasonStr = reasonParts.join("\n");
+    const finalReason = `Security violations found:\n${reasonStr}`;
+
+    return { decision: "deny", reason: finalReason };
+  }
+
   // Try to fix enforced violations
   const fixResult = applyFixes({
     code: file.content,

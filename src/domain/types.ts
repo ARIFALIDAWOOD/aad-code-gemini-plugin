@@ -8,6 +8,7 @@ export const pillarSchema = z.enum([
   "smallFunctions",
   "patternMatching",
   "pureFunctions",
+  "security",
 ]);
 
 export type Pillar = z.infer<typeof pillarSchema>;
