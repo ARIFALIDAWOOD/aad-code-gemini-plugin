@@ -31,6 +31,7 @@ export const generateGeminiMarkdown = (): string => {
     "smallFunctions",
     "patternMatching",
     "pureFunctions",
+    "security",
   ] as const;
 
   const header = `# AAD Governance Digest

@@ -1,10 +1,12 @@
 import type { GovernanceRule, Violation, ViolationAction } from "#domain/types.js";
 import { PYTHON_RULE_DEFINITIONS } from "#domain/rules/python-rules.js";
 import { TYPESCRIPT_RULE_DEFINITIONS } from "#domain/rules/typescript-rules.js";
+import { SECURITY_RULE_DEFINITIONS } from "#domain/security/secret-rules.js";
 
 export const ALL_GOVERNANCE_RULES: ReadonlyArray<GovernanceRule> = [
   ...TYPESCRIPT_RULE_DEFINITIONS,
   ...PYTHON_RULE_DEFINITIONS,
+  ...SECURITY_RULE_DEFINITIONS,
 ];
 
 const ruleById = new Map<string, GovernanceRule>(

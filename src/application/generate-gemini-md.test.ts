@@ -11,6 +11,7 @@ describe("generateGeminiMarkdown", () => {
     expect(md).toContain("## smallFunctions");
     expect(md).toContain("## patternMatching");
     expect(md).toContain("## pureFunctions");
+    expect(md).toContain("## security");
   });
 
   it("marks enforcement tiers", () => {
